@@ -1,19 +1,44 @@
 const urlData = 'https://jsonplaceholder.typicode.com/users'
 
-fetch(urlData)
-  .then((response) => {
-    try {
-      response.ok === true
-    } catch (error) {
-      console.error('Ошибка данных')
-    }
+const getUserList = () => {
+  toggleLoader()
+  setTimeout(() => {
+    fetch(urlData)
+      .then((response) => {
+        try {
+          response.ok === true
+        } catch (error) {
+          console.error('Ошибка данных')
+        }
 
-    return response.json()
-  })
+        return response.json()
+      })
 
-  .then((data) => {
-    const userList = new CreateUsersList(data)
-  })
+      .then((data) => {
+        const userList = new CreateUsersList(data)
+      })
+
+      .catch((error) => {
+        console.error(error)
+      })
+
+      .finally(() => {
+        toggleLoader()
+      })
+  }, 2000)
+}
+
+getUserList()
+
+function toggleLoader() {
+  const loaderHTML = document.querySelector('#loader')
+  const isHidden = loaderHTML.getAttribute('hidden') !== null
+  if (isHidden) {
+    loaderHTML.removeAttribute('hidden')
+  } else {
+    loaderHTML.setAttribute('hidden', '')
+  }
+}
 
 class CreateUsersList {
   constructor(data) {
