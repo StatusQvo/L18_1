@@ -1,4 +1,4 @@
-const urlData = 'https://jsonplaceholder.typicode.com/users123'
+const urlData = 'https://jsonplaceholder.typicode.com/users'
 
 const getUserList = () => {
   toggleLoader()
