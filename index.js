@@ -1,31 +1,23 @@
-const urlData = 'https://jsonplaceholder.typicode.com/users'
+const urlData = 'https://jsonplaceholder.typicode.com/users123'
 
 const getUserList = () => {
   toggleLoader()
-  setTimeout(() => {
-    fetch(urlData)
-      .then((response) => {
-        try {
-          response.ok === true
-        } catch (error) {
-          console.error('Ошибка данных')
-        }
-
-        return response.json()
-      })
-
-      .then((data) => {
-        const userList = new CreateUsersList(data)
-      })
-
-      .catch((error) => {
-        console.error(error)
-      })
-
-      .finally(() => {
-        toggleLoader()
-      })
-  }, 2000)
+  fetch(urlData)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Ошибка данных')
+      }
+      return response.json()
+    })
+    .then((data) => {
+      const userList = new CreateUsersList(data)
+    })
+    .catch((error) => {
+      console.error('[error]', error)
+    })
+    .finally(() => {
+      toggleLoader()
+    })
 }
 
 getUserList()
